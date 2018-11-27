@@ -3,7 +3,7 @@
 'Setting the position of nodes and providing mobility'
 
 import sys
-
+import os
 from mininet.node import Controller
 from mininet.log import setLogLevel, info
 from mn_wifi.cli import CLI_wifi
@@ -11,6 +11,10 @@ from mn_wifi.net import Mininet_wifi
 
 
 def topology():
+
+    #number of seconds to run test
+    seconds = 10
+
     "Create a network."
     net = Mininet_wifi(controller=Controller)
 
@@ -38,12 +42,12 @@ def topology():
 
     net.startMobility(time=0, repetitions=1)
 
-    net.mobility(sta1, 'start', time=2, position='50.0,75.0,0.0')
-    net.mobility(sta1, 'stop', time=22, position='50.0,80.0,0.0')
-    net.mobility(sta2, 'start', time=2, position='50.0,80.0,0.0')
-    net.mobility(sta2, 'stop', time=22, position='175.0,75.0,0.0')
+    net.mobility(sta1, 'start', time=0, position='50.0,75.0,0.0')
+    net.mobility(sta1, 'stop', time=seconds, position='50.0,80.0,0.0')
+    net.mobility(sta2, 'start', time=0, position='50.0,80.0,0.0')
+    net.mobility(sta2, 'stop', time=seconds, position='175.0,75.0,0.0')
 
-    net.stopMobility(time=23)
+    net.stopMobility(time=seconds)
 
     info("*** Starting network\n")
     net.build()
@@ -52,12 +56,23 @@ def topology():
     ap1.start([c1])
     ap2.start([c1])
 
+
+    #STARTING IPERF
+    info("*** Starting IPERF\n")
+    serverBW = [None] * seconds
+    clientBW = [None] * seconds
+
+    ap1.popen("iperf -s -p 5001 > ./iperf_server.txt")
+    ap2.popen("iperf -c %s -p 5001 -t %s -i 1 > ./iperf_client.txt" % (ap1.IP(), seconds), shell=True)
+
     info("*** Running CLI\n")
     CLI_wifi(net)
 
     info("*** Stopping network\n")
     net.stop()
 
+    os.system("cat ./iperf_client.txt")
+    os.system("cat ./iperf_client.txt | grep \"/sec\" | rev | cut -d ' ' -f 5,2 | rev")
 
 if __name__ == '__main__':
     setLogLevel('info')
