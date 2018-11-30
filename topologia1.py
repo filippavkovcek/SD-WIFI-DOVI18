@@ -62,8 +62,8 @@ def topology():
     serverBW = [None] * seconds
     clientBW = [None] * seconds
 
-    ap1.popen("iperf -s -p 5001 > ./iperf_server.txt")
-    ap2.popen("iperf -c %s -p 5001 -t %s -i 1 > ./iperf_client.txt" % (ap1.IP(), seconds), shell=True)
+    sta1.popen("iperf -s -p 5001 > ./iperf_server.txt")
+    sta2.popen("iperf -c %s -p 5001 -t %s -i 1 > ./iperf_client.txt" % (sta1.IP(), seconds), shell=True)
 
     info("*** Running CLI\n")
     CLI_wifi(net)
