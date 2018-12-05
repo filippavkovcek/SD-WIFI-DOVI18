@@ -28,8 +28,8 @@ topologia 3:
 SIMULATION 0 - 10 sec, PLOT SIZE: 300x300
 Prvok       mac                 IP          Position start      Position end
 sta1        00:00:00:00:00:02   10.0.0.2/8  200, 205, 0         NOT MOVING      #Iperf server
-sta2        00:00:00:00:00:03   10.0.0.3/8  20, 105, 0          270, 105, 0     #Iperf client
-sta2        00:00:00:00:00:03   10.0.0.3/8  105, 20, 0          105, 280, 0     #Iperf client
+sta2        00:00:00:00:00:03   10.0.0.3/8  20, 95, 0           290, 95, 0      #Iperf client
+sta2        00:00:00:00:00:03   10.0.0.3/8  95, 20, 0           95, 290, 0      #Iperf client
 ap1                                         100, 100, 0         NOT MOVING
 ap2                                         100, 200, 0         NOT MOVING
 ap3                                         200, 100, 0         NOT MOVING

@@ -24,7 +24,7 @@ def topology():
     #stations
     sta1 = net.addStation('sta1', mac='00:00:00:00:00:02', ip='10.0.0.2/8')
     sta2 = net.addStation('sta2', mac='00:00:00:00:00:03', ip='10.0.0.3/8')
-    sta3 = net.addStation('sta2', mac='00:00:00:00:00:03', ip='10.0.0.3/8')
+    sta3 = net.addStation('sta3', mac='00:00:00:00:00:03', ip='10.0.0.4/8')
 
     #acces points
     ap1 = net.addAccessPoint('ap1', ssid='ap1-ssid', mode='g', channel='1',position='100, 100, 0', range='100')
@@ -55,11 +55,11 @@ def topology():
     net.mobility(sta1, 'start', time=0, position='200, 205, 0')
     net.mobility(sta1, 'stop', time=seconds, position='200, 205, 0')
 
-    net.mobility(sta2, 'start', time=0, position='20, 105, 0')
-    net.mobility(sta2, 'stop', time=seconds, position='270, 105, 0')
+    net.mobility(sta2, 'start', time=0, position='20, 95, 0')
+    net.mobility(sta2, 'stop', time=seconds, position='290, 95, 0')
 
-    net.mobility(sta2, 'start', time=0, position='105, 20, 0')
-    net.mobility(sta2, 'stop', time=seconds, position='105, 280, 0')
+    net.mobility(sta3, 'start', time=0, position='95, 20, 0')
+    net.mobility(sta3, 'stop', time=seconds, position='95, 290, 0')
 
     net.stopMobility(time=seconds)
 
@@ -87,9 +87,14 @@ def topology():
 
     info("*** Stopping network\n")
     net.stop()
-
-    os.system("cat ./iperf_client.txt")
-    os.system("cat ./iperf_client.txt | grep \"/sec\" | rev | cut -d ' ' -f 5,2 | rev")
+	
+    os.system("echo \"client1:\"")
+    os.system("cat ./iperf_client1.txt")
+    os.system("cat ./iperf_client1.txt | grep \"/sec\" | rev | cut -d ' ' -f 5,2 | rev")
+	
+    os.system("echo \"client2:\"")
+    os.system("cat ./iperf_client2.txt")
+    os.system("cat ./iperf_client2.txt | grep \"/sec\" | rev | cut -d ' ' -f 5,2 | rev")
 
 if __name__ == '__main__':
     setLogLevel('info')
